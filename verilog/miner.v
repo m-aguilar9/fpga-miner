@@ -127,7 +127,7 @@ module miner_top(osc_clk);
     wire [43:0] padded_nonce;
     probe #(44, "GNON") probe_nonce(padded_nonce);
     
-    wire [31:0] seed = `ODOKEY;
+    wire [31:0] seed = 0x1A3B5C7E9D8F6E4C2B0A1D3F4E6B8A9C;
     probe #(32, "SEED") probe_seed(seed);
     
     wire miner_clk;
