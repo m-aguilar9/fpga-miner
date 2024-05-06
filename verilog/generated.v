@@ -1,112 +1,162 @@
-// Define a single s-box module
-module sbox(clk, in, out);
+// Pre-mix module
+module pre_mix(in, out);
+    input [639:0] in;
+    output [639:0] out;
+    wire [31:0] total;
+    assign total = in[31:0] ^ in[63:32] ^ in[95:64] ^ in[127:96] ^ in[159:128] ^ in[191:160] ^ 
+                   in[223:192] ^ in[255:224] ^ in[287:256] ^ in[319:288] ^ in[351:320] ^ 
+                   in[383:352] ^ in[415:384] ^ in[447:416] ^ in[479:448] ^ in[511:480] ^ 
+                   in[543:512] ^ in[575:544] ^ in[607:576] ^ in[639:608];
+
+    assign out[31:0] = in[31:0] ^ total ^ (total >> 32);
+    assign out[63:32] = in[63:32] ^ total ^ (total >> 32);
+    // Add more assignments for each 32-bit word up to [639:608]
+endmodule
+
+// Example S-box module
+module sbox_small(clk, in, out);
     input clk;
     input [3:0] in;
     output reg [3:0] out;
-    reg [3:0] mem[0:15];
+    reg [3:0] mem [0:15];
+
     always @(posedge clk) begin
         out <= mem[in];
     end
+
     initial begin
-        // Initialization of s-box values, example for one s-box
-        mem[0] = 4'hE;
-        mem[1] = 4'h4;
-        // Add remaining initializations...
+        mem[0] = 4'h0; mem[1] = 4'h1; mem[2] = 4'h2; mem[3] = 4'h3;
+        mem[4] = 4'h4; mem[5] = 4'h5; mem[6] = 4'h6; mem[7] = 4'h7;
+        mem[8] = 4'h8; mem[9] = 4'h9; mem[10] = 4'hA; mem[11] = 4'hB;
+        mem[12] = 4'hC; mem[13] = 4'hD; mem[14] = 4'hE; mem[15] = 4'hF;
     end
 endmodule
 
-// Define pre-mixing module
-module pre_mix(in, out);
-    input [127:0] in;
-    output [127:0] out;
-    wire [31:0] total;
-    assign total = in[31:0] ^ in[63:32] ^ in[95:64] ^ in[127:96];
-    assign out = in ^ {4{total}};
+// Example large S-box module with dual port
+module sbox_large(clk, a_in, b_in, a_out, b_out);
+    input clk;
+    input [7:0] a_in, b_in;
+    output reg [7:0] a_out, b_out;
+    reg [7:0] mem [0:255];
+
+    always @(posedge clk) begin
+        a_out <= mem[a_in];
+        b_out <= mem[b_in];
+    end
+
+    initial begin
+        // Initialize memory here for large S-box values
+        // Example values:
+        mem[0] = 8'h00; mem[1] = 8'h01; mem[2] = 8'h02; mem[3] = 8'h03;
+        // Add more initialization values for all 256 entries
+    end
 endmodule
 
-// Define p-box application module
-module apply_pbox(in, out);
-    input [127:0] in;
-    output [127:0] out;
-    assign out = {in[7:0], in[15:8], in[23:16], in[31:24], in[39:32], in[47:40], in[55:48], in[63:56], in[71:64], in[79:72], in[87:80], in[95:88], in[103:96], in[111:104], in[119:112], in[127:120]};
+// P-box modules
+module apply_pbox0(in, out);
+    input [639:0] in;
+    output [639:0] out;
+    // Implement permutation logic based on P-box specifications
 endmodule
 
-// Define rotation helper module
+module apply_pbox1(in, out);
+    input [639:0] in;
+    output [639:0] out;
+    // Implement permutation logic based on P-box specifications
+endmodule
+
+// Rotation helper module
 module rotation_helper(in, out);
     input [31:0] in;
     output [31:0] out;
-    assign out = {in[15:0], in[31:16]};
+    assign out = {in[31:8], in[7:0]} ^ {in[23:0], in[31:24]};
 endmodule
 
-// Define apply rotations module
+// Apply rotations module
 module apply_rotations(in, out);
-    input [127:0] in;
-    output [127:0] out;
-    wire [31:0] part0, part1, part2, part3;
-    rotation_helper rh0(in[31:0], part0);
-    rotation_helper rh1(in[63:32], part1);
-    rotation_helper rh2(in[95:64], part2);
-    rotation_helper rh3(in[127:96], part3);
-    assign out = {part3, part2, part1, part0};
+    input [639:0] in;
+    output [639:0] out;
+    wire [639:0] rot;
+    generate
+        genvar i;
+        for (i = 0; i < 20; i = i + 1) begin: rotate
+            rotation_helper rot_helper (.in(in[32*(i+1)-1:32*i]), .out(rot[32*(i+1)-1:32*i]));
+        end
+    endgenerate
+    assign out = rot ^ {in[31:0], in[639:32]};
 endmodule
 
-// Define apply round key module
+// Apply round key module
 module apply_round_key(key, in, out);
-    input [31:0] key;
-    input [127:0] in;
-    output [127:0] out;
-    assign out = in ^ {4{key}};
+    input [19:0] key;
+    input [639:0] in;
+    output [639:0] out;
+    generate
+        genvar i;
+        for (i = 0; i < 20; i = i + 1) begin: round_key
+            assign out[32*(i+1)-1:32*i] = in[32*(i+1)-1:32*i] ^ {28'h0, key[i]};
+        end
+    endgenerate
 endmodule
 
-// Define full round module
+// Full round module
 module full_round(clk, roundkey, in, out);
     input clk;
-    input [31:0] roundkey;
-    input [127:0] in;
-    output [127:0] out;
-    wire [127:0] mid0, mid1, mid2, mid3;
-    pre_mix pm(in, mid0);
-    apply_pbox pb0(mid0, mid1);
-    apply_sboxes sb(clk, mid1, mid2);
-    apply_pbox pb1(mid2, mid3);
-    apply_rotations rot(mid3, out);
+    input [19:0] roundkey;
+    input [639:0] in;
+    output [639:0] out;
+    wire [639:0] mid[0:3];
+    apply_pbox0 pbox0inst (.in(in), .out(mid[0]));
+    sbox_large sboxes (.clk(clk), .a_in(mid[0][7:0]), .b_in(mid[0][15:8]), .a_out(mid[1][7:0]), .b_out(mid[1][15:8]));
+    apply_pbox1 pbox1inst (.in(mid[1]), .out(mid[2]));
+    apply_rotations rotations (.in(mid[2]), .out(mid[3]));
+    apply_round_key keys (.key(roundkey), .in(mid[3]), .out(out));
 endmodule
 
-// Encryption loop
+// Encrypt loop module (single round key example)
 module encrypt_loop(clk, in, read, out, write);
     input clk;
-    input [127:0] in;
+    input [639:0] in;
     input read;
-    output reg [127:0] out;
+    output reg [639:0] out;
     output write;
-    reg [127:0] state;
-    wire [127:0] next;
-    full_round fr(clk, roundkey, state, next);
-    reg progress;
-    initial progress = 0;
+    reg [639:0] state[0:3];
+    wire [639:0] next[0:3];
+    
     always @(posedge clk) begin
-        if (read) begin
-            state <= in;
-        end else begin
-            state <= next;
-        end
-        progress <= read;
+        if (read) state[0] <= in;
+        else state[0] <= next[3];
+        state[1] <= next[0];
+        state[2] <= next[1];
+        state[3] <= next[2];
+        out <= next[3];
     end
-    assign write = progress;
+    
+    // Connect full rounds to encrypt loop
+    full_round round1 (.clk(clk), .roundkey(20'h12345), .in(state[0]), .out(next[0]));
+    full_round round2 (.clk(clk), .roundkey(20'h67890), .in(state[1]), .out(next[1]));
+    full_round round3 (.clk(clk), .roundkey(20'hABCDE), .in(state[2]), .out(next[2]));
+    full_round round4 (.clk(clk), .roundkey(20'hFEDCB), .in(state[3]), .out(next[3]));
 endmodule
 
 // Encrypt module
-module encrypt(clk, in, read, out, write);
+module odo_encrypt(clk, in, read, out, write);
     input clk;
-    input [127:0] in;
+    input [639:0] in;
     input read;
-    output [127:0] out;
+    output [639:0] out;
     output write;
-    reg [127:0] state;
-    wire [127:0] next;
-    encrypt_loop el(clk, state, read, next, write);
+    reg [1:0] progress;
+    reg [639:0] state[1:0];
+    wire [639:0] next;
+    
+    pre_mix premixer (.in(state[0]), .out(next));
+    encrypt_loop crypter (.clk(clk), .in(state[1]), .read(progress[1]), .out(out), .write(write));
+
     always @(posedge clk) begin
-        state <= in;
-        out <= next;
+        progress[0] <= read;
+        progress[1] <= progress[0];
+        state[0] <= in;
+        state[1] <= next;
     end
 endmodule
