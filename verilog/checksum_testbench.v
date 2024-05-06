@@ -12,6 +12,12 @@ module crc12_tb;
         .out(out)
     );
 
+    // Setup for generating the waveform dump
+    initial begin
+        $dumpfile("checksum_waveform.vcd");  // Specifies the name of the VCD file
+        $dumpvars(0, crc12_tb);     // Dumps all variables of the crc12_tb module
+    end
+
     // Test stimulus
     initial begin
         // Initialize input

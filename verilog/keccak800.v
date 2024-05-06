@@ -170,7 +170,7 @@ endmodule
 
 module keccak_hasher(clk, in, read, out, write);
     parameter WIDTH = 0; // input width
-    parameter THROUGHPUT = 0; // clocks per hash
+    parameter THROUGHPUT = 1; // clocks per hash
 
     localparam ROUNDS = 12;
     localparam UNROLLING = (ROUNDS-1) / THROUGHPUT + 1;

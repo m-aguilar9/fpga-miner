@@ -1,9 +1,3 @@
-// During testing, it was discovered that Quartus would occasionally compile
-// designs that regularly suffer from data corruption when reading the nonce
-// from the FPGA.  The most common failure was that a contiguous string of bits
-// would be flipped.  Padding the nonce with a short checksum will allow us to
-// detect and correct such corruptions.
-
 // Table for crc polynomial 0x3F9.  This polynomial was chosen due to its
 // ability to correct any contiguous string of bit-flips, and minimum gate
 // complexity among those able to do so.

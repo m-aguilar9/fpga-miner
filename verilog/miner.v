@@ -1,3 +1,8 @@
+`include "alt_probe.v"
+`include "checksum.v"
+`include "keccak800.v"
+`include "Generated.v"
+
 module cmp_256(clk, in, read, target, out, write);
     input clk;
     input [255:0] in;
@@ -127,13 +132,13 @@ module miner_top(osc_clk);
     wire [43:0] padded_nonce;
     probe #(44, "GNON") probe_nonce(padded_nonce);
     
-    wire [31:0] seed = `ODOKEY;
+    wire [31:0] seed = "0x1A3B5C7E9D8F6E4C2B0A1D3F4E6B8A9C";
     probe #(32, "SEED") probe_seed(seed);
     
     wire miner_clk;
     pll main_pll(osc_clk, miner_clk);
 
-    miner(miner_clk, header, target, nonce);
-    pad_nonce(miner_clk, nonce, padded_nonce);
+    miner m0(miner_clk, header, target, nonce);
+    pad_nonce p0(miner_clk, nonce, padded_nonce);
 endmodule
     
