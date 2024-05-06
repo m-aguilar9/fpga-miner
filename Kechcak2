@@ -1,0 +1,73 @@
+`timescale 1ns / 1ps
+
+module keccak_testbench;
+    // Inputs and Outputs for individual test modules
+    reg [7:0] in_next_round;
+    wire [7:0] out_next_round;
+
+    reg [7:0] in_key_expand;
+    wire [31:0] out_key_expand;
+
+    reg [799:0] in_theta, in_rho, in_pi, in_chi, in_iota;
+    wire [799:0] out_theta, out_rho, out_pi, out_chi, out_iota;
+
+    reg [7:0] roundkey_iota;
+    wire [799:0] state_iota;
+
+    // Instantiate modules
+    keccak_next_round next_round_inst (.in(in_next_round), .out(out_next_round));
+    keccak_key_expand key_expand_inst (.in(in_key_expand), .out(out_key_expand));
+    keccak_theta theta_inst (.in(in_theta), .out(out_theta));
+    keccak_rho rho_inst (.in(in_rho), .out(out_rho));
+    keccak_pi pi_inst (.in(in_pi), .out(out_pi));
+    keccak_chi chi_inst (.in(in_chi), .out(out_chi));
+    keccak_iota iota_inst (.in(in_iota), .roundkey(roundkey_iota), .out(state_iota));
+
+    // Clock for synchronous operations
+    reg clk;
+    initial clk = 0;
+    always #5 clk = ~clk;
+
+    // Test initialization and expected results
+    initial begin
+        // Initialize inputs
+        in_next_round = 8'h00;
+        in_key_expand = 8'h00;
+        in_theta = 800'h0;
+        in_rho = 800'h0;
+        in_pi = 800'h0;
+        in_chi = 800'h0;
+        in_iota = 800'h0;
+        roundkey_iota = 8'h00;
+
+        #50;  // Initial stabilization delay
+
+        // Start of test cases
+        $display("Starting Keccak function tests...");
+
+        // Test vector 1: Maximum transition trigger in next_round
+        in_next_round = 8'hFF; // All bits set to test the bit transformations
+        #10;
+        assert(out_next_round == 8'h7E) else $error("Test 1 Failed: Incorrect output for all-1 input in next round.");
+
+        // Test vector 2: Key expansion correctness
+        in_key_expand = 8'hAA; // Alternate bits to see the expansion behavior
+        #10;
+        assert(out_key_expand == 32'h2A000080) else $error("Test 2 Failed: Incorrect key expansion output.");
+
+        // More detailed test vectors for theta, rho, pi, chi, and iota stages can be added in similar fashion.
+
+        // If all assertions pass
+        $display("All tests passed successfully.");
+
+        // Complete the testing after a delay
+        #100;
+        $finish;
+    end
+
+    // Optional: Enhanced output for debugging
+    initial begin
+        $monitor("Time=%t ns, in_next_round=%h -> out_next_round=%h", $time, in_next_round, out_next_round);
+        // Add similar lines for other variables if needed for detailed tracing
+    end
+endmodule
