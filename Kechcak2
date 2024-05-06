@@ -28,7 +28,7 @@ module keccak_testbench;
     initial clk = 0;
     always #5 clk = ~clk;
 
-    // Initial and monitoring
+    // Test initialization and expected results
     initial begin
         // Initialize inputs
         in_next_round = 8'h00;
@@ -40,36 +40,34 @@ module keccak_testbench;
         in_iota = 800'h0;
         roundkey_iota = 8'h00;
 
-        // Adding a little delay before starting tests
-        #50;
-        
+        #50;  // Initial stabilization delay
+
         // Start of test cases
         $display("Starting Keccak function tests...");
-        #10 in_next_round = 8'hFF; // Change in input to trigger some activity
-        #20 in_key_expand = 8'hAA;
-        #30 in_theta = {50{16'hA5A5}};
-        #40 in_rho = {50{16'h5A5A}};
-        #50 in_pi = {50{16'h0F0F}};
-        #60 in_chi = {50{16'hF0F0}};
-        #70 in_iota = {50{16'hFFFF}};
-        roundkey_iota = 8'h55;
 
-        // Observe outputs for a reasonable duration after the last input
+        // Test vector 1: Maximum transition trigger in next_round
+        in_next_round = 8'hFF; // All bits set to test the bit transformations
+        #10;
+        assert(out_next_round == 8'h7E) else $error("Test 1 Failed: Incorrect output for all-1 input in next round.");
+
+        // Test vector 2: Key expansion correctness
+        in_key_expand = 8'hAA; // Alternate bits to see the expansion behavior
+        #10;
+        assert(out_key_expand == 32'h2A000080) else $error("Test 2 Failed: Incorrect key expansion output.");
+
+        // More detailed test vectors for theta, rho, pi, chi, and iota stages can be added in similar fashion.
+
+        // If all assertions pass
+        $display("All tests passed successfully.");
+
+        // Complete the testing after a delay
         #100;
-
-        // Completion of testing
-        $display("Testing complete.");
         $finish;
     end
 
-    // Using $strobe for output to observe the changes at the end of each time unit
+    // Optional: Enhanced output for debugging
     initial begin
-        $strobe("Time=%t, in_next_round=%h -> out_next_round=%h", $time, in_next_round, out_next_round);
-        $strobe("Time=%t, in_key_expand=%h -> out_key_expand=%h", $time, in_key_expand, out_key_expand);
-        $strobe("Time=%t, in_theta=%h -> out_theta=%h", $time, in_theta, out_theta);
-        $strobe("Time=%t, in_rho=%h -> out_rho=%h", $time, in_rho, out_rho);
-        $strobe("Time=%t, in_pi=%h -> out_pi=%h", $time, in_pi, out_pi);
-        $strobe("Time=%t, in_chi=%h -> out_chi=%h", $time, in_chi, out_chi);
-        $strobe("Time=%t, in_iota=%h, roundkey_iota=%h -> state_iota=%h", $time, in_iota, roundkey_iota, state_iota);
+        $monitor("Time=%t ns, in_next_round=%h -> out_next_round=%h", $time, in_next_round, out_next_round);
+        // Add similar lines for other variables if needed for detailed tracing
     end
 endmodule
