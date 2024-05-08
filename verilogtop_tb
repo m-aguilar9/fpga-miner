@@ -1,0 +1,41 @@
+`timescale 1ns / 1ps
+
+module tb_miner_top;
+
+    // Inputs
+    reg osc_clk;
+
+    // Instantiate the Unit Under Test (UUT)
+    miner_top uut (
+        .osc_clk(osc_clk)
+    );
+
+    // Clock generation
+    initial begin
+        osc_clk = 0;
+        forever #10 osc_clk = ~osc_clk; // Generate a 50MHz clock
+    end
+
+    // Test vectors
+    initial begin
+        // Initialize inputs
+        // Perform reset if necessary
+        // Apply test cases
+
+        // Test Case 1: Simple nonce computation
+        // Simulate a scenario where the target is easy to meet to test nonce calculation.
+        #100;
+        // Apply the header and target inputs according to your system specifics
+        
+        // Wait for a nonce to be outputted
+        #200;
+        // Check the result using $display or assertions to confirm if the output nonce is as expected
+        // $display("Nonce: %h", uut.nonce);
+
+        // More test cases can be added here...
+
+        #1000;
+        $finish; // End simulation after tests
+    end
+
+endmodule
