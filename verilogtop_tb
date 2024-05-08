@@ -1,11 +1,15 @@
 `timescale 1ns / 1ps
 
-module tb_miner_top;
+module miner_top_tb();
 
-    // Inputs
     reg osc_clk;
+    reg [607:0] header;
+    reg [255:0] target;
+    wire [31:0] nonce;
+    wire [43:0] padded_nonce;
+    wire miner_clk;
 
-    // Instantiate the Unit Under Test (UUT)
+    // Instantiate the top-level module
     miner_top uut (
         .osc_clk(osc_clk)
     );
@@ -13,29 +17,54 @@ module tb_miner_top;
     // Clock generation
     initial begin
         osc_clk = 0;
-        forever #10 osc_clk = ~osc_clk; // Generate a 50MHz clock
+        forever #10 osc_clk = ~osc_clk; // 50 MHz clock (20 ns period)
     end
 
-    // Test vectors
+    // Initialize inputs and testbench variables
     initial begin
-        // Initialize inputs
-        // Perform reset if necessary
-        // Apply test cases
+        // Example initialization - should be replaced with realistic test vectors
+        header = {608{1'b1}}; // maximum value, edge case
+        target = {255{1'b1}}, 1'b0; // just below halfway, to test boundary condition
 
-        // Test Case 1: Simple nonce computation
-        // Simulate a scenario where the target is easy to meet to test nonce calculation.
+        // Wait for the system to stabilize
         #100;
-        // Apply the header and target inputs according to your system specifics
-        
-        // Wait for a nonce to be outputted
-        #200;
-        // Check the result using $display or assertions to confirm if the output nonce is as expected
-        // $display("Nonce: %h", uut.nonce);
 
-        // More test cases can be added here...
-
+        // Modify the header dynamically during testing
+        header = {608{1'b0}}; // minimum value, edge case
         #1000;
-        $finish; // End simulation after tests
+        header = 608'hA3F...; // Specific realistic mining scenario
+
+        // Simulate for enough time to observe behaviors
+        #50000; // Adjust time as necessary for the scenarios
+
+        // Check results
+        if (nonce != expected_nonce) begin
+            $display("Test failed: Nonce mismatch. Expected %h, got %h", expected_nonce, nonce);
+        end else begin
+            $display("Test passed: Nonce matches expected value.");
+        }
+
+        // Finish the simulation
+        $finish;
+    end
+
+    // Assertions and Monitoring
+    initial begin
+        // Monitor important signals and check conditions
+        $monitor("Time=%t, Header=%h, Target=%h, Nonce=%h, Padded Nonce=%h",
+                 $time, header, target, nonce, padded_nonce);
+
+        // Assert conditions for cmp_256 and odo_keccak components
+        // Example assertions - these need to be adapted based on expected logic and output
+        assert (uut.odo_keccak_instance.out == expected_result) else begin
+            $error("odo_keccak output mismatch");
+        }
+    }
+
+    // Generate waveforms for analysis
+    initial begin
+        $dumpfile("miner_top_tb.vcd");
+        $dumpvars(0, miner_top_tb);
     end
 
 endmodule
