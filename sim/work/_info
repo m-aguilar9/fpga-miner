@@ -1,0 +1,770 @@
+m255
+K4
+z2
+!s11f vlog 2020.1 2020.01, Jan 28 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+d/home/mhs7956/fpga-miner-main/sim
+vapply_pbox0
+Z0 !s110 1715183502
+!i10b 1
+!s100 bC44hRBhgVS?ZX=?aOa<`3
+Z1 !s11b Dg1SIo80bB@j0V0VzS_@n1
+ISb[zdcm8lNYnG2Ko9?_mF1
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+Z3 d/home/mhs7956/fpga-miner/sim
+Z4 w1715010146
+Z5 8../verilog/Generated.v
+Z6 F../verilog/Generated.v
+!i122 78
+L0 56 5
+Z7 OL;L;2020.1;71
+r1
+!s85 0
+31
+Z8 !s108 1715183502.000000
+Z9 !s107 ../verilog/Generated.v|../verilog/keccak800.v|../verilog/checksum.v|../verilog/alt_probe.v|../verilog/miner.v|
+Z10 !s90 ../verilog/miner.v|
+!i113 0
+Z11 o-L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Z12 tCvgOpt 0
+vapply_pbox1
+R0
+!i10b 1
+!s100 bHM5^V1`[5G1lUmC2iV`o1
+R1
+Ii1Wb<RNdeQORSIl?=iRF]2
+R2
+R3
+R4
+R5
+R6
+!i122 78
+L0 62 5
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vapply_rotations
+R0
+!i10b 1
+!s100 FC5a4?h:B82`Z@lUkPW4d2
+R1
+IM7NJFili>j?U=>ETF^[><3
+R2
+R3
+R4
+R5
+R6
+!i122 78
+L0 76 12
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vapply_round_key
+R0
+!i10b 1
+!s100 E7;jakhai:KB^H72W=WT61
+R1
+I?cbE@44nX?DOP]X911;mk2
+R2
+R3
+R4
+R5
+R6
+!i122 78
+L0 90 11
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vcmp_256
+R0
+!i10b 1
+!s100 fNO44Ff5fb_3fF_Y`=<zR2
+R1
+IUIWH@^4P]IVm43=`Ho];:1
+R2
+R3
+Z13 w1715013196
+Z14 8../verilog/miner.v
+Z15 F../verilog/miner.v
+!i122 78
+L0 6 32
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vcrc12
+R0
+!i10b 1
+!s100 c:O]@^oQgHDAkYeI?`0EG3
+R1
+IkNXeVCMm:PXokAMYj:X;C0
+R2
+R3
+R4
+8../verilog/checksum.v
+F../verilog/checksum.v
+!i122 78
+L0 4 17
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vcrc12_tb
+R0
+!i10b 1
+!s100 CU803]z[9aP9Q]GQ]4g8f1
+R1
+I;YSOR<2NiQj?Amh33J20D2
+R2
+R3
+R4
+8../verilog/checksum_testbench.v
+F../verilog/checksum_testbench.v
+!i122 75
+L0 3 38
+R7
+r1
+!s85 0
+31
+!s108 1715183501.000000
+!s107 ../verilog/checksum_testbench.v|
+!s90 ../verilog/checksum_testbench.v|
+!i113 0
+R11
+R12
+vencrypt_loop
+R0
+!i10b 1
+!s100 R1C`7^33b@5iJSY4b`FAF2
+R1
+I3@A9Y:z@9hAba5Q=Y8hD:0
+R2
+R3
+R4
+R5
+R6
+!i122 78
+L0 117 24
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vfull_round
+R0
+!i10b 1
+!s100 MS<JQCme6BUgTM57;WGAK3
+R1
+IeTO]3QzPNk;mEUNYIUhOe3
+R2
+R3
+R4
+R5
+R6
+!i122 78
+L0 103 12
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vkeccak_buffer
+R0
+!i10b 1
+!s100 08^<3P_nHYD2oY;jY4_S82
+R1
+I_Ua8>YFL5J5g=RWfb]ZAi3
+R2
+R3
+Z16 w1715013203
+Z17 8../verilog/keccak800.v
+Z18 F../verilog/keccak800.v
+!i122 78
+L0 122 13
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vkeccak_chi
+R0
+!i10b 1
+!s100 UK___LoR>Z9?8[P41@h4_0
+R1
+I?W3NA20Vf[U29Q93ofdJ;3
+R2
+R3
+R16
+R17
+R18
+!i122 78
+L0 97 14
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vkeccak_hasher
+R0
+!i10b 1
+!s100 QM;G2^V?Fb?X6TeW<g_iQ0
+R1
+IFN9Ma9;o`P]O8ShXaGz630
+R2
+R3
+R16
+R17
+R18
+!i122 78
+L0 171 74
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vkeccak_iota
+R0
+!i10b 1
+!s100 <T80d6;1=YH1XIFim0D8A3
+R1
+IBZgMzZQfhZVEQQ5<e;nID3
+R2
+R3
+R16
+R17
+R18
+!i122 78
+L0 112 9
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vkeccak_key_expand
+R0
+!i10b 1
+!s100 TI5oK?AXN@7D`J2kikeWR1
+R1
+IAW8fQV`G>30^K6[Mh37KD2
+R2
+R3
+R16
+R17
+R18
+!i122 78
+L0 15 6
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vkeccak_next_round
+R0
+!i10b 1
+!s100 Z8Jz4o686=8zQRDK4jHDm3
+R1
+IY^C>h]znDcHGa6<j8iL300
+R2
+R3
+R16
+R17
+R18
+!i122 78
+L0 1 13
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vkeccak_padding
+R0
+!i10b 1
+!s100 PeMB;_QSTWV]zKzTPVTL73
+R1
+I9FdiZGFX>eh71Sbe1QIDK1
+R2
+R3
+R16
+R17
+R18
+!i122 78
+L0 161 9
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vkeccak_pi
+R0
+!i10b 1
+!s100 jK:i78oceH`B1?]bFnUQo0
+R1
+I?K=7^a_7ZM:LV]8fV67:B0
+R2
+R3
+R16
+R17
+R18
+!i122 78
+L0 80 16
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vkeccak_rho
+R0
+!i10b 1
+!s100 bl6OHT4<gg0L4P5E`1kWN2
+R1
+I<VF^>=XY:CjhMf<PHgT]?1
+R2
+R3
+R16
+R17
+R18
+!i122 78
+L0 47 32
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vkeccak_round
+R0
+!i10b 1
+!s100 [a:iGcEAVg3RLeG9fFQ[o2
+R1
+Iem98`]if=_0K9@]G>n>=53
+R2
+R3
+R16
+R17
+R18
+!i122 78
+L0 136 24
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vkeccak_testbench
+R0
+!i10b 1
+!s100 <YUk9N>Z<`ib>4hSk]gMG0
+R1
+IB:_<BQBF8YccZbIgbZA_32
+R2
+R3
+R4
+8../verilog/keccak800_testbench.v
+F../verilog/keccak800_testbench.v
+!i122 77
+L0 3 91
+R7
+r1
+!s85 0
+31
+R8
+!s107 ../verilog/keccak800_testbench.v|
+!s90 ../verilog/keccak800_testbench.v|
+!i113 0
+R11
+R12
+vkeccak_theta
+R0
+!i10b 1
+!s100 eY>_XPK12m:nRMkiYfC2m3
+R1
+ImD7Rgb=1>^l6?fkQgJX6b0
+R2
+R3
+R16
+R17
+R18
+!i122 78
+L0 25 21
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vminer
+R0
+!i10b 1
+!s100 Uj>GQT@mAQaj1n9P^<e8d3
+R1
+I_i78a8ClTBz`T78EH:hbG0
+R2
+R3
+R13
+R14
+R15
+!i122 78
+L0 57 45
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vminer_top
+R0
+!i10b 1
+!s100 IDLMV_:K2jk593c0jXI?I2
+R1
+ICTVi`oB9X]F8zSaM46k]F1
+R2
+R3
+R13
+R14
+R15
+!i122 78
+L0 117 27
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vodo_encrypt
+R0
+!i10b 1
+!s100 a9U0Mmon^TjX6h2hk=nki3
+R1
+I7>MS[Q<KURCS2PaS;5IV71
+R2
+R3
+R4
+R5
+R6
+!i122 78
+L0 143 20
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vodo_keccak
+R0
+!i10b 1
+!s100 QV=Z>[D8Y>?^ElP68F;N_3
+R1
+Ikzo5J<PhMM?FlK4MmWdNX2
+R2
+R3
+R13
+R14
+R15
+!i122 78
+L0 39 17
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vpad_nonce
+R0
+!i10b 1
+!s100 LRXEemKkO0i7^P2NhVc3J3
+R1
+Io[IECAblO]H3_cKPcPcD_0
+R2
+R3
+R13
+R14
+R15
+!i122 78
+L0 103 13
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vpre_mix
+R0
+!i10b 1
+!s100 ?Qa:ge:;5Rb9DU`1MYOO40
+R1
+IaBj[Ucnagn?T[W?WWG3M:1
+R2
+R3
+R4
+R5
+R6
+!i122 78
+L0 2 13
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vprobe
+R0
+!i10b 1
+!s100 S[M`]Z_HaC7ZgEgK=mOHD2
+R1
+I;Tg?z9f0cON4>G?Cf@Aga0
+R2
+R3
+R4
+Z19 8../verilog/alt_probe.v
+Z20 F../verilog/alt_probe.v
+!i122 78
+L0 42 39
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vrotation_helper
+R0
+!i10b 1
+!s100 g<2V>0XBD>Az^M?M8C=1?1
+R1
+ImmAOHM@[bc9Q0@?98U?g81
+R2
+R3
+R4
+R5
+R6
+!i122 78
+L0 69 5
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vsbox_large
+R0
+!i10b 1
+!s100 gD=dFV:Ic^5jaLColbQlE0
+R1
+Ie2iPbi_iLUNged[ZEgEOB1
+R2
+R3
+R4
+R5
+R6
+!i122 78
+L0 36 18
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vsbox_small
+R0
+!i10b 1
+!s100 ;MCZm]S5>6h_LWlEY@HTm3
+R1
+IZC2;`W^LR`HDaPmYa12ng2
+R2
+R3
+R4
+R5
+R6
+!i122 78
+L0 17 17
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vsource
+R0
+!i10b 1
+!s100 HJI0hGkfozN1Fj6zTY]bc0
+R1
+IgOlQEzY:l5VYCT?Modd^D2
+R2
+R3
+R4
+R19
+R20
+!i122 78
+L0 1 40
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vtestbench
+R0
+!i10b 1
+!s100 iLQ:IEHF^3if4^2Xo3kQe1
+R1
+IJlG]>amkCo;C3ODCz<7I_3
+R2
+R3
+R4
+8../verilog/miner_testbench.v
+F../verilog/miner_testbench.v
+!i122 79
+L0 3 97
+R7
+r1
+!s85 0
+31
+R8
+!s107 ../verilog/miner_testbench.v|
+!s90 ../verilog/miner_testbench.v|
+!i113 0
+R11
+R12
