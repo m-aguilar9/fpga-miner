@@ -11,111 +11,36 @@
 # //  is prohibited from disclosure under the Trade Secrets Act,
 # //  18 U.S.C. Section 1905.
 # //
-# do sim.do
-# Model Technology ModelSim SE-64 vlog 2020.1 Compiler 2020.01 Jan 28 2020
-# Start time: 13:33:53 on May 03,2024
-# vlog -reportprogress 300 ../verilog/alt_probe_testbench.v 
-# -- Compiling module testbench
-# 
-# Top level modules:
-# 	testbench
-# End time: 13:33:53 on May 03,2024, Elapsed time: 0:00:00
+# vsim -classdebug -voptargs="+acc" "+notimingchecks" -L work work.testbench -wlf testbench.wlf 
+# Start time: 16:46:25 on May 14,2024
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# Loading work.testbench(fast)
+# Loading work.cmp_256(fast)
+# Loading work.odo_keccak(fast)
+# Loading work.odo_encrypt(fast)
+# Loading work.pre_mix(fast)
+# Loading work.encrypt_loop(fast)
+# Loading work.full_round(fast)
+# Loading work.apply_pbox0(fast)
+# Loading work.sbox_large(fast)
+# Loading work.apply_pbox1(fast)
+# Loading work.apply_rotations(fast)
+# Loading work.rotation_helper(fast)
+# Loading work.apply_round_key(fast)
+# Loading work.keccak_hasher(fast)
+# Loading work.keccak_padding(fast)
+# Loading work.keccak_round(fast)
+# Loading work.keccak_theta(fast)
+# Loading work.keccak_buffer(fast)
+# Loading work.keccak_rho(fast)
+# Loading work.keccak_pi(fast)
+# Loading work.keccak_chi(fast)
+# Loading work.keccak_iota(fast)
+# Loading work.keccak_key_expand(fast)
+# Loading work.keccak_next_round(fast)
+# Loading work.miner(fast)
+# Loading work.pad_nonce(fast)
+# Loading work.crc12(fast)
+add wave -position insertpoint sim:/testbench/pad_nonce_test/*
+# End time: 16:48:08 on May 14,2024, Elapsed time: 0:01:43
 # Errors: 0, Warnings: 0
-# Model Technology ModelSim SE-64 vlog 2020.1 Compiler 2020.01 Jan 28 2020
-# Start time: 13:33:53 on May 03,2024
-# vlog -reportprogress 300 ../verilog/alt_probe.v 
-# -- Compiling module source
-# -- Compiling module probe
-# 
-# Top level modules:
-# 	source
-# 	probe
-# End time: 13:33:53 on May 03,2024, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# Model Technology ModelSim SE-64 vlog 2020.1 Compiler 2020.01 Jan 28 2020
-# Start time: 13:33:53 on May 03,2024
-# vlog -reportprogress 300 ../verilog/checksum_testbench.v 
-# -- Compiling module crc12_tb
-# 
-# Top level modules:
-# 	crc12_tb
-# End time: 13:33:53 on May 03,2024, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# Model Technology ModelSim SE-64 vlog 2020.1 Compiler 2020.01 Jan 28 2020
-# Start time: 13:33:53 on May 03,2024
-# vlog -reportprogress 300 ../verilog/checksum.v 
-# -- Compiling module crc12
-# 
-# Top level modules:
-# 	crc12
-# End time: 13:33:53 on May 03,2024, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# Model Technology ModelSim SE-64 vlog 2020.1 Compiler 2020.01 Jan 28 2020
-# Start time: 13:33:53 on May 03,2024
-# vlog -reportprogress 300 ../verilog/keccak800_testbench.v 
-# -- Compiling module keccak_testbench
-# 
-# Top level modules:
-# 	keccak_testbench
-# End time: 13:33:53 on May 03,2024, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# Model Technology ModelSim SE-64 vlog 2020.1 Compiler 2020.01 Jan 28 2020
-# Start time: 13:33:53 on May 03,2024
-# vlog -reportprogress 300 ../verilog/keccak800.v 
-# -- Compiling module keccak_next_round
-# -- Compiling module keccak_key_expand
-# -- Compiling module keccak_theta
-# -- Compiling module keccak_rho
-# -- Compiling module keccak_pi
-# -- Compiling module keccak_chi
-# -- Compiling module keccak_iota
-# -- Compiling module keccak_buffer
-# -- Compiling module keccak_round
-# -- Compiling module keccak_padding
-# -- Compiling module keccak_hasher
-# 
-# Top level modules:
-# 	keccak_hasher
-# End time: 13:33:53 on May 03,2024, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# Model Technology ModelSim SE-64 vlog 2020.1 Compiler 2020.01 Jan 28 2020
-# Start time: 13:33:53 on May 03,2024
-# vlog -reportprogress 300 ../verilog/miner_testbench.v 
-# -- Compiling module testbench
-# 
-# Top level modules:
-# 	testbench
-# End time: 13:33:53 on May 03,2024, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# Model Technology ModelSim SE-64 vlog 2020.1 Compiler 2020.01 Jan 28 2020
-# Start time: 13:33:54 on May 03,2024
-# vlog -reportprogress 300 ../verilog/miner.v 
-# -- Compiling module cmp_256
-# -- Compiling module odo_keccak
-# ** Error: ../verilog/miner.v(48): (vlog-2163) Macro `THROUGHPUT is undefined.
-# ** Error: (vlog-13069) ../verilog/miner.v(48): near ")": syntax error, unexpected ')'.
-# -- Compiling module miner
-# ** Error: ../verilog/miner.v(67): (vlog-2163) Macro `THROUGHPUT is undefined.
-# ** Error: ../verilog/miner.v(77): (vlog-2163) Macro `THROUGHPUT is undefined.
-# -- Compiling module pad_nonce
-# -- Compiling module miner_top
-# ** Error: ../verilog/miner.v(130): (vlog-2163) Macro `ODOKEY is undefined.
-# ** Error: (vlog-13069) ../verilog/miner.v(130): near ";": syntax error, unexpected ';'.
-# End time: 13:33:54 on May 03,2024, Elapsed time: 0:00:00
-# Errors: 6, Warnings: 0
-# ** Error: /vol/mentor/modelsim-2020.1/modeltech/linux_x86_64/vlog failed.
-# Error in macro ./sim.do line 10
-# /vol/mentor/modelsim-2020.1/modeltech/linux_x86_64/vlog failed.
-#     while executing
-# "vlog ../verilog/miner.v "
-vsim work.testbench
-# vsim work.testbench 
-# Start time: 13:34:14 on May 03,2024
-# ** Note: (vsim-3812) Design is being optimized...
-# ** Error: ../verilog/miner_testbench.v(40): Module 'odo_keccak' is not defined.
-# ** Error: ../verilog/miner_testbench.v(55): Module 'miner' is not defined.
-# Optimization failed
-# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=2, Warnings=0.
-# Error loading design
-# End time: 13:34:15 on May 03,2024, Elapsed time: 0:00:01
-# Errors: 2, Warnings: 0
