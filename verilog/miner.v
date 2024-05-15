@@ -1,7 +1,4 @@
-`include "alt_probe.v"
-`include "checksum.v"
-`include "keccak800.v"
-`include "Generated.v"
+
 `define THROUGHPUT 1000
 module cmp_256(clk, in, read, target, out, write);
     input clk;
@@ -54,51 +51,58 @@ module odo_keccak(clk, in, read, target, out, write);
     cmp_256 compare(clk, pow_hash, has_hash, target, out, write);
 endmodule
 
-module miner(clk, header, target, nonce);
+module miner(clk, reset, header, target, nonce);
     parameter INONCE = 0; // for testing
 
     input clk;
+    input reset;
     input [607:0] header;
     input [255:0] target;
-    output reg [31:0] nonce;
+    output wire [31:0] nonce;
     
     reg [31:0] nonce_in;
     reg [31:0] nonce_out;
-    initial nonce_in = INONCE;
-    initial nonce_out = INONCE;
+
     
     reg [6:0] counter;
     reg advance;
-    initial counter = `THROUGHPUT-1;
-    initial advance = 0;
     
     wire res;
     wire has_res;
     
     odo_keccak worker(clk, {nonce_in, header}, advance, target, res, has_res);
     
-    always @(posedge clk)
+    always @(posedge clk, posedge reset)
     begin
-        if (counter == `THROUGHPUT-1)
-        begin
-            counter <= 0;
-            advance <= 1;
-        end
-        else
-        begin
-            counter <= counter + 1;
-            advance <= 0;
-        end
-        if (advance)
-            nonce_in <= nonce_in + 1;
-        if (has_res)
-        begin
-            if (res)
-                nonce <= nonce_out;
-            nonce_out <= nonce_out + 1;
-        end
-    end
-endmodule
+		 if ( reset == 1'b1 ) begin
+				counter <= '0;
+				advance <= '0;
+				nonce_out <= INONCE;
+				nonce <= '0;
+		 else
+			  if (counter == `THROUGHPUT-1)
+				  begin
+						counter <= 0;
+						advance <= 1;
+				  end
+			  else
+			  begin
+					counter <= counter + 1;
+					advance <= 0;
+			  end
+			  if (advance)
+					nonce_in <= nonce_in + 1;
+			  if (has_res)
+			  begin
+					if (res)
+						nonce_out <= nonce_out + 1;
+			  end
+		 end
+	 end
+
+	 assign nonce = nonce_out;
+
+ endmodule
 
 module pad_nonce(clk, in, out);
     input clk;
@@ -114,8 +118,9 @@ module pad_nonce(clk, in, out);
     end
 endmodule
 
-module miner_top(osc_clk);
-    input osc_clk;
+module miner_top(clk, reset);
+    input clk;
+	 input reset;
     
     wire [607:0] header;
     // Altera docs suggest maximum source width is 256, but it actually seems
@@ -132,11 +137,11 @@ module miner_top(osc_clk);
     wire [43:0] padded_nonce;
     probe #(44, "GNON") probe_nonce(padded_nonce);
     
-    wire [31:0] seed = "0x1A3B5C7E9D8F6E4C2B0A1D3F4E6B8A9C";
+    wire [31:0] seed = "0x1A3B5C7E9D8F6E4C2B0A1D3F4E6B8A9C";``
     probe #(32, "SEED") probe_seed(seed);
     
-    wire miner_clk;
-    pll main_pll(osc_clk, miner_clk);
+    //wire miner_clk, locked;
+    //pll main_pll(.clk(clk), .rst(reset), .outclk_0(miner_clk), .locked(locked));
 
     miner m0(miner_clk, header, target, nonce);
     pad_nonce p0(miner_clk, nonce, padded_nonce);

@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-`include "miner.v"
+
 
 module testbench;
     // Clock for the entire system

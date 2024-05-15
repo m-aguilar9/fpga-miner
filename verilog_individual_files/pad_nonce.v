@@ -1,0 +1,16 @@
+/// miner.v 
+`define THROUGHPUT 1000
+
+module pad_nonce(clk, in, out);
+    input clk;
+    input [31:0] in;
+    output reg [43:0] out;
+
+    wire [11:0] checksum;
+    crc12 cksum(in, checksum);
+
+    always @(posedge clk)
+    begin
+        out <= { checksum, in };
+    end
+endmodule

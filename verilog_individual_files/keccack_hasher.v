@@ -1,0 +1,76 @@
+// keccak800.v
+
+module keccak_hasher(clk, in, read, out, write);
+    parameter WIDTH = 0; // input width
+    parameter THROUGHPUT = 1; // clocks per hash
+
+    localparam ROUNDS = 12;
+    localparam UNROLLING = (ROUNDS-1) / THROUGHPUT + 1;
+    // Add some extra delay so that gcd(THROUGHPUT, 2*UNROLLING+EXTRA_DELAY)=1
+    localparam EXTRA_DELAY = 
+        (THROUGHPUT == 3) ? 2 :
+        (THROUGHPUT == 10) ? 3 :
+        (THROUGHPUT < 12) ? 1 :
+        ((THROUGHPUT % 6) == 0) ? 3 :
+        ((THROUGHPUT % 6) == 3) ? 2 : 1;
+    localparam LATENCY = 2*ROUNDS + ((ROUNDS-1) / UNROLLING) * EXTRA_DELAY + 1;
+    
+    input clk;
+    input [WIDTH-1:0] in;
+    input read;
+    output reg [255:0] out;
+    output write;
+    
+    reg [807:0] state[UNROLLING+EXTRA_DELAY-1:0];
+    wire [807:0] next[UNROLLING+EXTRA_DELAY-1:0];
+    
+    wire [807:0] padded;
+    keccak_padding #(WIDTH) padder(in, padded);
+    
+    genvar i;
+    generate
+    for (i = 0; i < UNROLLING; i = i+1)
+    begin : loop1
+        keccak_round round(clk, state[i], next[i]);
+    end
+    endgenerate
+
+    generate
+    for (i = 0; i < EXTRA_DELAY; i = i+1)
+    begin : loop2
+        assign next[i+UNROLLING] = state[i+UNROLLING];
+    end
+    endgenerate
+    
+    generate
+    for (i = 1; i < UNROLLING+EXTRA_DELAY; i = i+1)
+    begin : loop3
+        always @(posedge clk)
+            state[i] <= next[i-1];
+    end
+    endgenerate
+        
+    reg [LATENCY-1:0] progress;
+    initial progress = {LATENCY{1'h0}};
+    assign write = progress[LATENCY-1];
+    
+    generate
+    for (i = 1; i < LATENCY; i = i+1)
+    begin : loop4
+        always @(posedge clk)
+            progress[i] <= progress[i-1];
+    end
+    endgenerate
+
+    always @(posedge clk)
+    begin
+        if (THROUGHPUT == 1 || read)
+            state[0] <= padded;
+        else
+            state[0] <= next[UNROLLING+EXTRA_DELAY-1];
+        
+        progress[0] <= read;
+        
+        out <= next[(ROUNDS-1) % UNROLLING][255:0];
+    end
+endmodule
