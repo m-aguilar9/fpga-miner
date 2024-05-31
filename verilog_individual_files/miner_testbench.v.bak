@@ -2,11 +2,14 @@
 
 module miner_testbench;
     reg osc_clk;
-    
+    wire [31:0] nonce;
+    wire [43:0] padded_nonce;
 
     // Instantiate the miner_top module
     miner_top uut (
-        .osc_clk(osc_clk)
+        .osc_clk(osc_clk),
+        .nonce(nonce),
+        .padded_nonce(padded_nonce)
     );
 
     // Clock generation
@@ -28,6 +31,6 @@ module miner_testbench;
     initial begin
         $dumpfile("miner_testbench.vcd");
         $dumpvars(0, miner_testbench);
+        $dumpvars(1, uut);
     end
 endmodule
-

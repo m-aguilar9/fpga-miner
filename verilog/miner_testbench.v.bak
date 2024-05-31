@@ -7,6 +7,7 @@ module miner_testbench;
     // Instantiate the miner_top module
     miner_top uut (
         .osc_clk(osc_clk)
+        
     );
 
     // Clock generation
@@ -20,7 +21,7 @@ module miner_testbench;
         // Initialize the signals if needed
         #10; // Wait for a few clock cycles
         // Add more stimulus if needed
-        #100000; // Run simulation for 1000ns
+        #1000; // Run simulation for 1000ns
         $finish;
     end
 

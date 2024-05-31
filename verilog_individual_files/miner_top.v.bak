@@ -26,7 +26,7 @@ module miner_top(
         .clk(miner_clk),
         .reset(reset), // Pass reset signal
         .header(header),
-        .target(target),
+        .target(target,
         .nonce(nonce)
     );
 

@@ -22,14 +22,7 @@ module miner(
     wire res;
     wire has_res;
 
-    odo_keccak worker(
-        .clk(clk),
-        .in({nonce_in, header}),
-        .read(advance),
-        .target(target),
-        .out(res),
-        .write(has_res)
-    );
+    odo_keccak worker(clk, {nonce_in, header}, advance, target, res, has_res);
 
     always @(posedge clk or posedge reset)
     begin
@@ -37,7 +30,7 @@ module miner(
             nonce_in <= INONCE;
             nonce_out <= INONCE;
             counter <= `THROUGHPUT-1;
-            advance <= 0;
+            advance = 0;
             nonce <= 0;
         end else begin
             if (counter == `THROUGHPUT-1) begin
@@ -57,4 +50,3 @@ module miner(
         end
     end
 endmodule
-

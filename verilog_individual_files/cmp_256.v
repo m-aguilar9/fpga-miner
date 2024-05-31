@@ -1,5 +1,5 @@
 //miner.v
-`define THROUGHPUT 1000
+
 module cmp_256(clk, in, read, target, out, write);
     input clk;
     input [255:0] in;
